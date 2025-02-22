@@ -13,6 +13,15 @@ except Exception as e:
 # Initialize FastAPI app
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (you can specify specific origins here)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 # Define input data format
 class RiskInput(BaseModel):
     age: int
