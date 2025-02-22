@@ -40,7 +40,7 @@ def predict_risk(data: RiskInput):
             "blood_pressure": "sbp",
             "sex": "sex" 
         })
-        expected_order = ['age' 'sex' 'Cholesterol' 'sbp' 'Diabetes' 'Smoking']
+        expected_order =  ['age', 'sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
         input_data = input_data[expected_order] 
         # Make prediction
         prediction = model.predict(input_data)
