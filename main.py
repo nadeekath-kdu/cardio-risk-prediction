@@ -20,6 +20,7 @@ class RiskInput(BaseModel):
     blood_pressure: float
     smoking: int
     diabetes: int
+    sex: int
 
 # Prediction endpoint
 @app.post("/predict")
@@ -36,7 +37,8 @@ def predict_risk(data: RiskInput):
             "cholesterol": "Cholesterol",
             "diabetes": "Diabetes",
             "smoking": "Smoking",
-            "blood_pressure": "sbp"
+            "blood_pressure": "sbp",
+            "sex": "sex" 
         })
 
         # Make prediction
