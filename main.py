@@ -31,9 +31,18 @@ def predict_risk(data: RiskInput):
         # Convert input to DataFrame
         input_data = pd.DataFrame([data.dict()])
 
+        # Rename features to match the trained model
+        input_data = input_data.rename(columns={
+            "cholesterol": "Cholesterol",
+            "diabetes": "Diabetes",
+            "smoking": "Smoking",
+            "blood_pressure": "sbp"
+        })
+
         # Make prediction
         prediction = model.predict(input_data)
 
         return {"risk_prediction": int(prediction[0])}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
+
