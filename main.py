@@ -69,6 +69,8 @@ def predict_risk(data: RiskInput):
         risk_levels = ["<10%", "10% to <20%", "20% to <30%", "30% to <40%", ">=40%"]
         risk_level = risk_levels[prediction_code]
 
+        print("Prediction Level:", risk_level)
+
         return {"risk_level": risk_level}
     except Exception as e:
         # Log the full error traceback
