@@ -46,13 +46,14 @@ def predict_risk(data: RiskInput):
 
         # Rename features to match the trained model
         input_data = input_data.rename(columns={
+            "age": "Age", 
+            "sex": "Sex", 
             "cholesterol": "Cholesterol",
             "diabetes": "Diabetes",
             "smoking": "Smoking",
-            "blood_pressure": "sbp",
-            "sex": "sex" 
+            "blood_pressure": "sbp"
         })
-        expected_order =  ['age', 'sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
+        expected_order =  ['Age', 'Sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
         input_data = input_data[expected_order] 
 
         print("Processed Data:")
