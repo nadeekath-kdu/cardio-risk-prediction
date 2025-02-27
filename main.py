@@ -59,7 +59,7 @@ def predict_risk(data: RiskInput):
 
         # Make prediction
         #prediction = model.predict(input_data)
-        prediction_code = model.predict(input_data)[0]
+        prediction_code = model.predict(input_data)
 
         print("prediction:", prediction_code)
         
