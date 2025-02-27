@@ -55,19 +55,20 @@ def predict_risk(data: RiskInput):
         expected_order =  ['age', 'sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
         input_data = input_data[expected_order] 
 
-        print("Processed Data:", input_data)
-
         # Make prediction
-        #prediction = model.predict(input_data)
-        prediction_code = model.predict(input_data)
+        prediction_code = model.predict(input_data)[0]
 
-        print("prediction:", prediction_code)
-        
+        # Log the prediction
+        print("Prediction Code:", prediction_code)
+
         # Map the prediction code to the risk level
         risk_levels = ["<10%", "10% to <20%", "20% to <30%", "30% to <40%", ">=40%"]
         risk_level = risk_levels[prediction_code]
+
         return {"risk_level": risk_level}
-        #return {"risk_prediction": int(prediction[0])}
     except Exception as e:
+        # Log the full error traceback
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Prediction error: {str(e)}")
 
