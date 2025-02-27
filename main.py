@@ -39,7 +39,7 @@ def predict_risk(data: RiskInput):
         raise HTTPException(status_code=500, detail="Model not loaded")
 
     try:
-        print("Input Data:", data.dict())
+        print("Raw Data:", data.dict())
 
         # Convert input to DataFrame
         input_data = pd.DataFrame([data.dict()])
@@ -54,6 +54,9 @@ def predict_risk(data: RiskInput):
         })
         expected_order =  ['age', 'sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
         input_data = input_data[expected_order] 
+
+        print("Processed Data:")
+        print(input_data)
 
         # Make prediction
         prediction_code = model.predict(input_data)[0]
