@@ -84,7 +84,7 @@ def predict_risk(data: RiskInput):
         probability_cvd = float(prediction_proba[1])
 
         # Map probability to risk level
-        risk_level = map_risk_level(probability_cvd)
+        risk_level = map_risk_level(probability_cvd - 0.5)
 
         # Return the results
         return {
