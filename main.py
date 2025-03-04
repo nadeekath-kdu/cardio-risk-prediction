@@ -4,14 +4,15 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-# Load the model and scaler with error handling
+# Load the model with error handling
 try:
     model = joblib.load("cardiovascular_risk_model.pkl")
-    #scaler = joblib.load("scaler.pkl")  # Load the scaler if required
+    # Uncomment the following line if a scaler is required
+    # scaler = joblib.load("scaler.pkl")
 except Exception as e:
     print("Error loading model or scaler:", e)
     model = None
-    #scaler = None
+    # scaler = None  # Uncomment if scaler is required
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -53,8 +54,8 @@ def map_risk_level(probability_cvd):
 # Prediction endpoint
 @app.post("/predict")
 def predict_risk(data: RiskInput):
-    if model is None or scaler is None:
-        raise HTTPException(status_code=500, detail="Model or scaler not loaded")
+    if model is None:
+        raise HTTPException(status_code=500, detail="Model not loaded")
 
     try:
         print("Input Data:", data.dict())
@@ -66,12 +67,16 @@ def predict_risk(data: RiskInput):
         expected_order = ['age', 'sex', 'cholesterol', 'sbp', 'diabetes', 'smoking']
         input_data = input_data[expected_order]
 
-        # Scale the input data if required
-        scaled_input = scaler.transform(input_data)
+        print("Input data:", input_data)
 
-        # Make prediction
-        prediction = model.predict(scaled_input)[0]
-        prediction_proba = model.predict_proba(scaled_input)[0]
+        # Scale the input data if required (uncomment if scaler is used)
+        # scaled_input = scaler.transform(input_data)
+        # prediction = model.predict(scaled_input)[0]
+        # prediction_proba = model.predict_proba(scaled_input)[0]
+
+        # If no scaler is used, directly predict
+        prediction = model.predict(input_data)[0]
+        prediction_proba = model.predict_proba(input_data)[0]
 
         # Log the prediction
         print("Prediction:", prediction)
