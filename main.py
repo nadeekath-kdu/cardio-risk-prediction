@@ -7,11 +7,11 @@ from pydantic import BaseModel
 # Load the model and scaler with error handling
 try:
     model = joblib.load("cardiovascular_risk_model.pkl")
-    scaler = joblib.load("scaler.pkl")  # Load the scaler if required
+    #scaler = joblib.load("scaler.pkl")  # Load the scaler if required
 except Exception as e:
     print("Error loading model or scaler:", e)
     model = None
-    scaler = None
+    #scaler = None
 
 # Initialize FastAPI app
 app = FastAPI()
