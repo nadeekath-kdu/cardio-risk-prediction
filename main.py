@@ -7,7 +7,7 @@ from pydantic import BaseModel
 # Load the model and scaler with error handling
 try:
     model = joblib.load("cardiovascular_risk_model.pkl")
-    #scaler = joblib.load("scaler.pkl")  # Load the scaler if required
+    scaler = joblib.load("scaler.pkl")  # Load the scaler if required
 except Exception as e:
     print("Error loading model or scaler:", e)
     model = None
@@ -57,33 +57,17 @@ def predict_risk(data: RiskInput):
         raise HTTPException(status_code=500, detail="Model or scaler not loaded")
 
     try:
+        print("Input Data:", data.dict())
 
         # Convert input to DataFrame
         input_data = pd.DataFrame([data.dict()])
 
-<<<<<<< HEAD
         # Ensure the columns are in the correct order
         expected_order = ['age', 'sex', 'cholesterol', 'sbp', 'diabetes', 'smoking']
         input_data = input_data[expected_order]
 
         # Scale the input data if required
         scaled_input = scaler.transform(input_data)
-=======
-        # Rename features to match the trained model
-        input_data = input_data.rename(columns={
-            "age": "Age", 
-            "sex": "Sex", 
-            "cholesterol": "Cholesterol",
-            "diabetes": "Diabetes",
-            "smoking": "Smoking",
-            "blood_pressure": "sbp"
-        })
-        expected_order =  ['Age', 'Sex' ,'Cholesterol', 'sbp' ,'Diabetes' ,'Smoking']
-        input_data = input_data[expected_order] 
->>>>>>> 712a71b5e67031656c76429fb7bfd62aba07657e
-
-        print("Processed Data:")
-        print(input_data)
 
         # Make prediction
         prediction = model.predict(scaled_input)[0]
@@ -96,7 +80,6 @@ def predict_risk(data: RiskInput):
         # Get the probability of CVD (class 1)
         probability_cvd = float(prediction_proba[1])
 
-<<<<<<< HEAD
         # Map probability to risk level
         risk_level = map_risk_level(probability_cvd)
 
@@ -107,11 +90,6 @@ def predict_risk(data: RiskInput):
             "probability_cvd": probability_cvd,  # Probability of CVD
             "risk_level": risk_level  # Mapped risk level
         }
-=======
-        print("Prediction Level:", risk_level)
-
-        return {"risk_level": risk_level}
->>>>>>> 712a71b5e67031656c76429fb7bfd62aba07657e
     except Exception as e:
         # Log the full error traceback
         import traceback
